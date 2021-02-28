@@ -9,6 +9,24 @@
 
 <body>
    <p>Welcome to the Chat App</p>
+
+
+   <script src="/socket.io/socket.io.js"></script>
+
+   <script>
+    //    This socket is used to listen and send data to the server
+       var socket = io();
+
+       socket.on('connect', () => {
+           console.log('Connected to server');
+       });
+
+       socket.on('disconnect', () => {
+           console.log('Disconnected from the server');
+       });
+       
+   </script>
 </body>
+
 
 </html>
