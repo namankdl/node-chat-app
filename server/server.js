@@ -20,15 +20,17 @@ var io = socketIO(server);
 //Register a event listner
 io.on('connection', (socket) => {
     console.log('new user connected');
-
-
-    socket.emit('newMessage', {
-        from: 'naman@gmail.com',
-        text: 'Hey,How are u'
-    });
-
+    
+    //user send an event to the server
     socket.on('createMessage', (message) => {
         console.log('createMesssage', message);
+
+        //when a user send any data it can be broadcast to everyone.
+        io.emit('newMessage',{
+            from: message.from,
+            text: message.text,
+            createdAt: new Date().getTime()
+        });
 
     });
 
