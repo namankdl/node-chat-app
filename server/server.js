@@ -32,12 +32,14 @@ io.on('connection', (socket) => {
 
     
     //user send an event to the server
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message,callback) => {
         console.log('createMesssage', message);
 
         //when a user send any data it can be broadcast to everyone.
-        io.emit('newMessage',
-                 generateMessage(message.from,message.text));
+        io.emit('newMessage',generateMessage(message.from,message.text));
+
+        
+        callback('This is from the server');
 
         // socket.broadcast.emit('newMessage',{ 
         //     from:message.from,
