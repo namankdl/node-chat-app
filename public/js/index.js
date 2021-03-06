@@ -1,6 +1,21 @@
 //    This socket is used to listen and send data to the server
 var socket = io();
 
+function scrollToBottom(){
+    var element = $('#messages');
+    var newMessage = element.children('li:last-child');
+    var clientHeight = element.prop('clientHeight');
+    var scrollTop = element.prop('scrollTop');
+    var scrollHeight = element.prop('scrollHeight');
+    var newMessageHeight = newMessage.innerHeight();
+    var lastMessageHeight = newMessage.prev().innerHeight();
+
+    if(clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight)
+    {
+        element.scrollTop(scrollHeight);
+    }
+ }
+
 socket.on('connect', function () {
     console.log('Connected to server');
 });
@@ -18,6 +33,7 @@ socket.on('newMessage', function (message) {
            createdAt:formattedTime,
        });
        $('#messages').append(html);
+       scrollToBottom();
 });
 
 socket.on('newLocationMessage', function(message){
@@ -29,6 +45,7 @@ socket.on('newLocationMessage', function(message){
            createdAt:formattedTime,
        });
        $('#messages').append(html);
+       scrollToBottom();
 });
 
 
