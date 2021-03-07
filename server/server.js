@@ -48,19 +48,26 @@ io.on('connection', (socket) => {
     });
 
 
-    //user send an event to the server
+    //user send an event to the client
     socket.on('createMessage', (message, callback) => {
-        console.log('createMesssage', message);
+        var user = users.getUser(socket.id);
 
-        //when a user send any data it can be broadcast to everyone.
-        io.emit('newMessage', generateMessage(message.from, message.text));
+        if(user && isRealString(message.text))
+        {
+             //when a user send any data it can be broadcast to everyone.
+             io.to(user.room).emit('newMessage', generateMessage(user.name, message.text));
 
-
-        callback('This is from the server');
+        }
+        callback();
     });
 
     socket.on('createLocationMessage', (coords) => {
-        io.emit('newLocationMessage', generateLocationMessage('Admin', coords.latitude, coords.longitude));
+        var user = users.getUser(socket.id);
+
+        if(user)
+        {
+            io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
         console.log(coords.latitude);
     });
 
