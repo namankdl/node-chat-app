@@ -1,6 +1,6 @@
 var isRealString = (str) => {
-    str = str.trim();
-    if(str.length === 0)
+    var checkstring = str.trim();
+    if(checkstring.length === 0)
     {
         return false;
     }
